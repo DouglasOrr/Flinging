@@ -90,24 +90,29 @@ def build(dev: bool, port: int) -> None:
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
+
+    # Code
     if dev:
         run(
-            ["python3", "-m", "http.server", str(port)],
+            [
+                "npx",
+                "parcel",
+                "serve",
+                "src/index.html",
+                "--port",
+                str(port),
+                "--dist-dir",
+                str(out),
+            ],
             background=True,
-            cwd=out,
-            log=out / "server.log",
         )
-    run(
-        ["npx", "tsc", "--outDir", str(out), "--watch" if dev else None],
-        background=dev,
-    )
+    else:
+        run(["npm", "run", "check"])
+        run(["npx", "parcel", "build", "src/index.html", "--dist-dir", str(out)])
+
+    # Assets
     shutil.copy("assets/favicon.ico", out / "favicon.ico")
     for src_root, rules, dest_root in [
-        (
-            Path("src"),
-            [(".html", ".html", Rules.copy), (".css", ".css", Rules.copy)],
-            out,
-        ),
         (
             Path("assets"),
             [
@@ -118,11 +123,11 @@ def build(dev: bool, port: int) -> None:
         ),
     ]:
         custom_build(src_root, rules, dest_root, watch=dev)
-    with (out / "COMMIT").open("wb") as f:
-        subprocess.check_call(["git", "rev-parse", "HEAD"], stdout=f)
 
     # Create a submission zipfile
     if not dev:
+        with (out / "COMMIT").open("wb") as f:
+            subprocess.check_call(["git", "rev-parse", "HEAD"], stdout=f)
         run(
             ["zip", "-r", f"flinging_{datetime.datetime.now().isoformat()}.zip", "."],
             cwd=out,

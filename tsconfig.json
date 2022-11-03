@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
+        "moduleResolution": "node",
         "esModuleInterop": true,
         "sourceMap": true,
+        "strict": true,
         "target": "ES6",
-        "moduleResolution": "node"
+        "isolatedModules": true
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "test/**/*.ts"
     ]
 }

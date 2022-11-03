@@ -2,7 +2,7 @@ dist/
 dist_dev/
 local/
 node_modules/
-.venv/
-
 package-lock.json
+.parcel-cache/
 __pycache__
+.venv/
