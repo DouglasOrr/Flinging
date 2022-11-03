@@ -17,6 +17,6 @@ pip install -r requirements.txt
 
 Running:
 
- - `./build --dev`, then visit http://localhost:8000 or http://localhost:8000/?autoreload=true&debug=true&level=1
+ - `./build --dev`, then visit http://localhost:8000 or http://localhost:8000/?autoreload=true
  - `./build`, for release
  - `npm run check`, unit tests, types and lint
