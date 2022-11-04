@@ -4,6 +4,7 @@
         "esModuleInterop": true,
         "sourceMap": true,
         "strict": true,
+        "strictPropertyInitialization": false,
         "target": "ES6",
         "isolatedModules": true
     },
