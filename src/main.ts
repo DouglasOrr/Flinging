@@ -10,8 +10,8 @@ window.onload = () => {
         backgroundColor: "#000000",
         physics: {
             default: "matter",
-            matter: { debug: { lineThickness: 2 }, enableSleeping: true }
+            matter: { debug: { lineThickness: 2 }, enableSleeping: true },
         },
-        scene: MainScene
+        scene: MainScene,
     });
-}
+};
