@@ -7,8 +7,8 @@ const CONFIG = {
         frictionAir: 0.01,
         mass: 1.0,
         thrust: {
-            main: 0.0004,
-            hRatio: 0.2,
+            main: 0.00035,
+            hRatio: 0.3,
             offsetRatio: 0.15,
         },
         sling: {
@@ -16,13 +16,14 @@ const CONFIG = {
             stiffness: 0.9,
             thickness: 5,
             mass: 0.01,
+            slop: 0.1,
         },
         start: { x: 200, y: 400 },
     },
     bomb: {
         radius: 10,
         frictionAir: 0,
-        gravityScale: 0.5,
+        gravityScale: 0.6,
         restitution: 0.5,
         mass: 0.03,
     },
@@ -65,7 +66,10 @@ function createShip(matter: Phaser.Physics.Matter.MatterPhysics): MatterJS.BodyT
             });
         }
     );
-    const chain = matter.add.chain(stack, 0.5, 0, -0.5, 0, { stiffness: c.sling.stiffness, length: 0 });
+    const chain = matter.add.chain(stack, 0.5, 0, -0.5, 0, {
+        stiffness: c.sling.stiffness,
+        length: c.sling.slop * chainLinkLength,
+    });
     matter.add.constraint(ship, chain.bodies[0], 0, c.sling.stiffness, {
         pointA: { x: -c.width, y: -c.height - ship.centerOffset.y },
         pointB: { x: -chainLinkLength / 2, y: 0 },
